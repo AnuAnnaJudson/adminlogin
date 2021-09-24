@@ -30,7 +30,12 @@ router.get('/adu',(req,res)=>{
 })
 
 router.get('/GoToadduser',(req,res)=>{
-  res.render("adminadduser")
+    
+    if(req.session.admin){
+      res.render("adminadduser")
+    }else{
+      res.redirect("/admin")
+    }
 })
 
 router.post('/adminhome',(req,res,next)=>{
@@ -59,9 +64,13 @@ router.get('/delete/:id',(req,res)=>{
 })
 
 router.get('/edit/:id',async(req,res)=>{
+  if(req.session.admin){
   let details=await helpers.getUserDetails(req.params.id)
    console.log(details)
    res.render('adminedituser',{details})
+  }else{
+    res.redirect("/admin")
+  }
   })
 
 router.post('/updateuser/:id',(req,res)=>{
