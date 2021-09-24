@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Au Register Forms by Colorlib</title>
+
+    <!-- Icons font CSS-->
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link rel='stylesheet' href='/stylesheets/style1.css'  media="all" >
+    {{!-- <link href="css/main.css" rel="stylesheet" media="all"> --}}
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w780">
+            <div class="card card-3">
+                <div class="card-heading"></div>
+                <div class="card-body">
+                    <h2 class="title">Signup-form</h2>
+                    <form action="/userSignup" enctype="application/x-www-form-urlencoded" method="POST" >
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Name" name="name" id="name" oninput="this.value=this.value.replace(/[^A-Za-z- ]|^ /g,'')" data-rule="minlen:4" required>
+                            <p id="error1" style="color: red;"></p>
+                        </div>
+                        
+                        <div class="input-group">
+                            <input class="input--style-3" type="email" placeholder="Email" id="email" name="email" required>
+                            <p id="error3" style="color: red;"></p>
+                        </div>
+                        <div class="input-group">
+                            <input class="input--style-3" type="tel" placeholder="Phone" id="phone" name="phone" required>
+                            <p id="error4" style="color: red;"></p>
+                        </div>
+                        <div class="input-group">
+                            <input class="input--style-3" type="password" placeholder="password" id="password" name="password" required>
+                            <p id="error5" style="color: red;"></p>
+                            {{#if errormsg}}
+                            <p style="color: red;">User already exist!</p>
+                            {{/if}}
+                        </div>
+                        <div class="p-t-10">
+                            <button class="btn btn--pill btn--green" id="submitbtn" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- Vendor JS-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="vendor/datepicker/moment.min.js"></script>
+    <script src="vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="js/global.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+
+</html>
+<!-- end document-->
+<script>
+     let nameChecking = false;
+    let emailChecking = false;
+    let numberChecking = false;
+    let passwordChecking = false;
+    $(document).ready(function(){
+
+        $("#name").on('input',function(){
+            this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')
+            let name = this.value
+            let nameregex = /^[A-Za-z]+$/
+            if(name.match(nameregex)&&name.length<3){
+                $("#error1").html("enter minimum 3 charaters");
+                nameChecking = false;
+            }
+            else if(name.includes("  ")){
+                $("#error1").html("invalid ");
+                nameChecking = false;
+            }
+        else if(name.match(nameregex)){
+            $("#error1").html("");
+            nameChecking = true;
+        }
+            
+        })
+    
+    
+        
+            $("#email").keyup(function(){
+            let email = this.value
+            let emailregex = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/;
+            
+            if(email.match(emailregex)){
+                $("#error2").html("")
+                emailChecking = true;
+            }
+            else{
+                $("#error2").html("enter a valid email")
+                emailChecking = false;
+            }
+        })
+    
+        
+            $("#phone").on("input",function(){
+            this.value=this.value.replace(/[^\d]/,'') 
+            let phone = this.value
+            let phoneregex = /^[0-9]*$/
+            if(phone==""){
+                $("#error3").html("enter 10 numbers")
+                numberChecking = false;
+            }
+            else if(phone.match(/^[A-Za-z]+$/)) {
+                $("#error3").html("enter numbers only")
+                numberChecking = false;
+            }
+            else if(phone.match(phoneregex)&&phone.length<10){
+                $("#error3").html("enter 10 numbers")
+                return false;
+            }
+            else if(phone.match(phoneregex)&&phone.length>10){
+                $("#error3").html("enter a valid number")
+                numberChecking = false
+            }
+            else if(phone.match(phoneregex)){
+                numberChecking=true
+                $("#error3").html("")
+                return true
+            }
+            else{
+                return false;
+            }
+            
+        })
+    
+    
+            $("#password").on("input",function(){
+                let password = this.value
+                if(password==""){
+                    $("#error4").html("enter a password")
+                }else{
+                    $('#error4').html("")
+                    passwordChecking = true;
+                }
+            })
+        
+	})
+    
+	function addAllUsers(){
+		
+
+	if(nameChecking&&emailChecking&&numberChecking){
+		return true
+	}else{
+		return false
+	}
+		
+		
+		
+	}
+    
+    </script> 
+	
